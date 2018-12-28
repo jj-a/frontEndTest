@@ -1,0 +1,90 @@
+<!doctype html>
+<html lang="ko">
+ <head>
+  <meta charset="UTF-8">
+  <title>06_성적프로그램(배열).html</title>
+  <style>	
+  </style>
+ </head>
+ <body>
+	<div id="demo"></div>
+	<script>
+	//※주의사항: 크롬에서 변수명 name 사용할 경우 주의할 것!!
+    var uname = ["홍길동","무궁화","라일락","진달래","개나리"];
+    var kor   = [100, 35, 75, 95, 85];
+    var eng   = [100, 40, 80, 95, 90];
+    var mat   = [95, 50, 60, 35, 85];
+    var aver  = [0, 0, 0, 0, 0];
+    var rank  = [1, 1, 1, 1, 1];
+    var size  = uname.length;
+
+    // 평균
+
+    for(var i=0;i<size;i++){
+        aver[i]=parseInt((kor[i]+eng[i]+mat[i])/3);
+    }
+
+    // 석차
+    for(var i=0;i<size;i++) {
+        for(var j=0;j<size;j++) {
+            if(aver[i]<aver[j]) rank[i]++;
+        }
+    }
+
+	// 과락 (평균을 기준으로 합격, 재시험, 불합격)
+    var isPass=[];
+    for(var i=0;i<size;i++) {
+        if(aver>=70) isPass[i]="합격";
+        else if(aver>=40) isPass[i]="재시험";
+        else isPass[i]="불합격";
+    }
+
+	// 평균 95이상 장학생
+    var isScholar=[];
+    for(var i=0;i<size;i++) {
+        if(aver[i]>=95) isScholar[i]="장학생";
+        else isScholar[i]="대상아님";
+    }
+    
+    // 결과 출력
+    var table=["","","","",""];
+    for(var i=0;i<size;i++){
+		table[i] += "<table width=200 border='1' align=center>";
+		table[i] += "<tr align=center>";
+		table[i] += "<td colspan=3>성적표</td>";
+		table[i] += "</tr><tr align=center>";
+		table[i] += "<td colspan=2>이름</td>";
+		table[i] += "<td>"+uname[i]+"</td>";
+		table[i] += "</tr><tr align=center>";
+		table[i] += "<td rowspan=4>점수</td>";
+		table[i] += "<td>국어</td>";
+		table[i] += "<td>"+kor[i]+"</td>";
+		table[i] += "</tr><tr align=center>";
+		table[i] += "<td>영어</td>";
+		table[i] += "<td>"+eng[i]+"</td>";
+		table[i] += "</tr><tr align=center>";
+		table[i] += "<td>수학</td>";
+		table[i] += "<td>"+mat[i]+"</td>";
+		table[i] += "</tr><tr align=center>";
+		table[i] += "<td>평균</td>";
+		table[i] += "<td>"+aver[i]+"</td>";
+		table[i] += "</tr><tr align=center>";
+		table[i] += "<td rowspan=3>결과</td>";
+		table[i] += "<td>석차</td>";
+		table[i] += "<td>"+rank[i]+"</td>";
+		table[i] += "</tr><tr align=center>";
+		table[i] += "<td>합격여부</td>";
+		table[i] += "<td>"+isPass[i]+"</td>";
+		table[i] += "</tr><tr align=center>";
+		table[i] += "<td>장학생여부</td>";
+		table[i] += "<td>"+isScholar[i]+"</td>";
+		table[i] += "</tr>";
+        table[i] += "</table>";
+    }
+    for(var i=0;i<size;i++){
+        document.getElementById("demo").innerHTML += table[i];
+    }
+
+	</script>  
+ </body>
+</html>

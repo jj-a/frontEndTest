@@ -1,0 +1,90 @@
+<!doctype html>
+<html lang="ko">
+ <head>
+  <meta charset="UTF-8">
+  <title>03_제어문.html</title>
+  <style>
+  </style>
+ </head>
+ <body>
+  <div id="demo"></div>
+  <script>
+	//조건문 : if문, switch~case문
+	//반복문 : for문, while문, do~while문
+	//break문, continue문
+	var uname = "무궁화";
+	var kor = 100, eng = 95, mat = 35;
+	var total = kor+eng+mat;
+	var aver = parseInt(total/3);
+
+	//문1) 학점 구하기 (평균 기준)
+	var score;
+	switch(parseInt(aver/10)){
+		case 10:
+		case 9: score="A"; break;
+		case 8: score="B"; break;
+		case 7: score="C"; break;
+		case 6: score="D"; break;
+		default: score="F";
+	}
+
+	//문2) 과락 (평균을 기준으로 합격, 재시험, 불합격)
+	var isPass;
+	if(aver>=70) isPass="합격";
+	else if(aver>=50) isPass="재시험";
+	else isPass="불합격";
+
+	//문3) 평균 10점당 ★개씩
+	var sscore="";
+	for(var i=0;i<parseInt(aver/10);i++) sscore+="★";
+
+	//문4) 평균 95이상 장학생
+	var isScholar;
+	if(aver>=95) isScholar="장학생";
+	else isScholar="대상아님";
+
+	//위 자료를 테이블로 작성해서 id=demo에 출력하시오
+	var table="";
+		table += "<table border='1' align=center>"	;
+		table += "<tr>";
+		table += "<td colspan=2>항목</td>";
+		table += "<td>값</td>";
+		table += "</tr><tr>";
+		table += "<td colspan=2>이름</td>";
+		table += "<td>"+uname+"</td>";
+		table += "</tr><tr>";
+		table += "<td rowspan=5>점수</td>";
+		table += "<td>국어</td>";
+		table += "<td>"+kor+"</td>";
+		table += "</tr><tr>";
+		table += "<td>영어</td>";
+		table += "<td>"+eng+"</td>";
+		table += "</tr><tr>";
+		table += "<td>수학</td>";
+		table += "<td>"+mat+"</td>";
+		table += "</tr><tr>";
+		table += "<td>합계</td>";
+		table += "<td>"+total+"</td>";
+		table += "</tr><tr>";
+		table += "<td>평균</td>";
+		table += "<td>"+aver+"</td>";
+		table += "</tr><tr>";
+		table += "<td rowspan=4>결과</td>";
+		table += "<td>학점</td>";
+		table += "<td>"+score+"</td>";
+		table += "</tr><tr>";
+		table += "<td>합격여부</td>";
+		table += "<td>"+isPass+"</td>";
+		table += "</tr><tr>";
+		table += "<td>별점</td>";
+		table += "<td>"+sscore+"</td>";
+		table += "</tr><tr>";
+		table += "<td>장학생여부</td>";
+		table += "<td>"+isScholar+"</td>";
+		table += "</tr>";
+		table += "</table>";
+	document.getElementById("demo").innerHTML = table;
+
+  </script>
+ </body>
+</html>

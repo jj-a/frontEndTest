@@ -9,6 +9,8 @@
  </head>
  <body>
 	<!-- HTML 본문영역 -->
+    <div id="demo"></div>
+
 	<script>
       //Javascript영역
       //한줄주석
@@ -64,6 +66,7 @@
 		var cars = [];        //배열
 //-------------------------------------------------------------
         //3) document 객체 : 웹페이지의 본문 <body>가르키는 객체
+		/*
 		document.write(123);
 		document.write("대한민국");
 		document.write("456");
@@ -72,6 +75,33 @@
 		document.write("<strong>솔데스크</strong>");
 		document.write("<hr>");
 		document.write("<img src='../images/k2.png'>");
+		*/
+//------------------------------------------------------------
+		//4) 본문에 있는 id 속성을 접근
+		//JavaScript
+		//document.getElementById("demo").innerHTML = "대한민국";
+		//jQuery
+		//$("#demo").val("무궁화");
+		var uname = "오필승";
+		var age = 20;
+		var height = 175.6;
+		var table = "";
+		table += "<table border='1'>";
+		table += "<tr>";
+		table += "	<td>이름</td>";
+		table += "	<td>" + uname + "</td>";
+		table += "</tr>";
+		table += "<tr>";
+		table += "	<td>나이</td>";
+		table += "	<td>" + age + "</td>";
+		table += "</tr>";
+		table += "<tr>";
+		table += "	<td>키</td>";
+		table += "	<td>" + height + "</td>";
+		table += "</tr>";
+		table += "</table>";
+
+		document.getElementById("demo").innerHTML = table;
 	</script>
  </body>
 </html>
