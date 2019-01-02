@@ -1,5 +1,6 @@
 /* mystyle.css */
-body {background:white;
+body {
+	background:white;
       margin:20px; 0px; 0px; 0px; /*바깥쪽 여백*/
 	  padding:0px; 0px; 0px; 0px; /*안쪽 여백*/
 	  font:12px 굴림체;
