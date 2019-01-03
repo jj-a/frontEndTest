@@ -1,0 +1,49 @@
+<!doctype html>
+<html lang="ko">
+
+<head>
+	<meta charset="UTF-8">
+	<title>18_scope.html</title>
+	<style>
+		body, p {
+			text-align: center;
+		}
+	</style>
+</head>
+
+<body>
+
+	<h1>자바스크립트의 유효범위(Scope)</h1>
+	<hr>
+	<input type="button" value="SCOPE1" onclick="test1()">
+	<input type="button" value="SCOPE2" onclick="test2()">
+
+	<script>
+		var one = "하나";     // 전역변수
+		function test1() {
+			var userName = "SOLDESK";   // 지역변수
+			alert(userName);
+			//alert("uid: "+uid);
+			alert("one: "+one);
+			alert("two: "+two);
+			alert("three: "+three);
+		}//test1() end
+
+		var two = "둘";
+		function test2() {
+			var uid = "KOREA";      //지역변수
+			alert(uid);
+			alert("userName: " + userName);
+		}//test2() end
+
+		/* 자바스크립트 유효범위
+		   - 지역변수 Local scope
+			 function내에 선언된 변수로 function내에서만 사용가능
+
+		   - 전역변수 Global scope
+			 function외부에서 선언된 변수로 모든 function에서 사용가능
+		*/
+	</script>
+</body>
+
+</html>

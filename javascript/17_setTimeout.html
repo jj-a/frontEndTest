@@ -1,0 +1,30 @@
+<!doctype html>
+<html lang="ko">
+<head>
+	<meta charset="UTF-8">
+	<title>18_scope.html</title>
+	<style>
+		body, p {
+			text-align: center;
+		}
+	</style>
+</head>
+<body>
+
+	<p>3초 후 경고창이 출력됩니다.</p>
+
+	<script>
+		/*
+		setInterval("함수명()", 시간) : 주기적으로 호출
+		setTimeout(함수명, 시간)      : 한번만 호출
+		시간 : 1000 ms = 1 second
+		시간해제 : clearInterval() / clearTimeout()
+		*/
+		//3초마다 반복적으로 경고창 호출
+		//setInterval(function(){ alert("Hello"); }, 3000);
+
+		//3초후 경고창 1번 호출
+		setTimeout(function(){ alert("Hello"); }, 3000);
+	</script>   
+</body>
+</html>

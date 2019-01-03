@@ -1,0 +1,62 @@
+<!doctype html>
+<html lang="ko">
+
+<head>
+	<meta charset="UTF-8">
+	<title>14_getElementById.html</title>
+	<style>
+		body {
+			width: 50%;
+			text-align: center;
+		}
+		div, p, hr, input {
+			text-align: center;
+		}
+	</style>
+</head>
+
+<body>
+	<div id="mydiv" style="position:absolute; top:50%; left:50%; width:150px; height:70px; background-color:lightgoldenrodyellow;">
+		대한민국
+	</div>
+	<p><input type="button" value="ID접근" onclick="test()"></p>
+	<hr>
+	<p id="demo">Hello World!!</p>
+	<p><input type="button" value="스타일변경" onclick="mycolor()"></p>
+	<hr>
+	<img src="../images/apeach3.gif" id="myimg" width=300px height=auto>
+	<p><input type="button" value="이미지변경" onclick="myimage()"></p>
+
+
+	<script>
+		function test() {
+			// [object HTMLDivElement]
+			//alert(document.getElementById("mydiv"));
+
+			// [object CSSStyleDeclaration]
+			// JavaScript 접근
+			alert(document.getElementById("mydiv").style);
+			// jQuery 접근
+			//$("#mydiv").css()
+
+			alert(document.getElementById("mydiv").style.top);
+			alert(document.getElementById("mydiv").style.left);
+			alert(document.getElementById("mydiv").style.width);
+			alert(document.getElementById("mydiv").style.height);
+
+		}//test() end
+
+		function mycolor() {
+			document.getElementById("demo").style.background = "lightpink";
+			document.getElementById("demo").style.color = "white";
+			document.getElementById("demo").innerHTML = "솔데스크";
+		}
+
+		function myimage() {
+			document.getElementById("myimg").src = "../images/apeach4.gif";
+		}//myimage() end
+
+	</script>
+</body>
+
+</html>
