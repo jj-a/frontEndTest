@@ -146,36 +146,63 @@
 	<script>
 		var op;	// 연산기호
 		var num1, num2;	// 입력1, 입력2
-		var last="none";
+		var last = "none";
 
-		function cls(f) {
-			//f -> <form name=calcfrm></form>
-			//CLEAR버튼을 클릭하면 name=result상자에 0을 대입
-			f.result.value = 0;
-			f.saveop.value = "";
-		}//cls() end
-
-		function inputData(su) {
+		function inputData(su) {	// 숫자 입력
 			var f = document.calcfrm;
 
-			//su변수에 전달값을 name=result상자에 출력
-			//if (f.result.value == 0) f.result.value = su;
-			//else f.result.value += su;
-			if(last==op) f.result.value=su;
-			else f.result.value = Number(f.result.value + su);	// Number() 숫자형으로 형변환
-			last=su;
-			
-			// TODO: 소수점 계산 구현하기
+			if (last == op) f.result.value = su;
+			else f.result.value += su;
+			// Number() 숫자형으로 형변환
+			if (su != ".") f.result.value = Number(f.result.value);
 
+			last = su;
 
 		}//inputData() end
 
-		function backspace(f) {
+		function operator(kind) {	// 연산기호 입력
+
+			if (last != op) {
+				// 1) 사용자가 입력한 연산기호를 op 전역변수에 저장
+
+				if (document.calcfrm.saveop.value != "") {
+					calc(op);
+				}
+				else {
+					// 2) 현재 name=result가 가지고 있는 값을 첫번째 수로 저장
+					num1 = Number(document.calcfrm.result.value);
+				}
+
+			}
+			op = kind;
+			last = kind;
+
+			document.calcfrm.saveop.value = op;
+
+		}//operator() end
+
+		function calc(op) {		// 계산
+			// 1) 두번째 수 가져오기
+			num2 = Number(document.calcfrm.result.value);
+			num1 = eval(num1 + op + num2);
+			// 2) 계산 및 출력
+			document.calcfrm.result.value = num1;
+		}
+
+		function compute() {	// = 입력
+			// 계산결과 출력
+			if (last != op) calc(op);
+			document.calcfrm.saveop.value = "";
+
+
+		}//compute() end
+
+		function backspace(f) {		// 한글자 삭제
 			// 숫자로 처리
 			f.result.value = parseInt(f.result.value / 10);
 			/*
-						// 문자로 처리 - 마지막글자부터 순차적으로 지우기
-						/* 값이 초과할 경우 문자로 처리되서 제대로 안나옴 */
+			// 문자로 처리 - 마지막글자부터 순차적으로 지우기
+			// 값이 초과할 경우 문자로 처리되서 제대로 안나옴
 			//1)name=result 값을 가져오기
 			var str = f.result.value; //실제 값
 			//alert(str);
@@ -193,38 +220,16 @@
 			} else {
 				f.result.value = str.substring(0, len - 1);
 			}//if end*/
+
 		}//backspace() end
 
+		function cls(f) {	// 전체 삭제
+			//f -> <form name=calcfrm></form>
+			//CLEAR버튼을 클릭하면 name=result상자에 0을 대입
+			f.result.value = 0;
+			f.saveop.value = "";
+		}//cls() end
 
-		function operator(kind){
-			// 1) 사용자가 입력한 연산기호를 op 전역변수에 저장
-			op=kind;
-			last=kind;
-
-			// 2) 현재 name=result가 가지고 있는 값을 첫번째 수로 저장
-			num1=Number(document.calcfrm.result.value);
-
-			// 3) 두번째 수를 입력받기 위해 name=result값을 초기화
-			document.calcfrm.saveop.value=op;
-
-			//TODO: saveop value에 연산기호가 있을 때는 tmp 써서 num1=num2로 옮기고 num2=num1(기존값)+num2(새로입력한값)
-			// TODO: 몫(%) 계산되는지 확인
-
-		}//operator() end
-
-		function compute(){
-			// 계산결과 출력
-
-			// 1) 두번째 수 가져오기
-			num2=Number(document.calcfrm.result.value);
-
-			// 2) 계산 및 출력
-			document.calcfrm.result.value=eval(num1+op+num2);
-			document.calcfrm.saveop.value="";
-			
-
-
-		}//compute() end
 	</script>
 </body>
 
