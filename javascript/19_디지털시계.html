@@ -33,22 +33,29 @@
 		<hr>
 		<input type="button" value="시작" onclick="starttime()">
 		<input type="button" value="중지" onclick="killtime()">
+		<input type="button" value="종료" onclick="endtime()">
 
 	</form>
 
 
 	<script>
-		function starttime(){
-			setInterval(function(){
-				var color=[];
-				color[0]=Math.random()*256;
-				color[1]=Math.random()*256;
-				color[2]=Math.random()*256;
-				document.getElementById("clock").style.backgroundColor="rgb("+color[0]+","+color[1]+","+color[2]+")";
-				
-				showtime();
-				
-			}, 1000);
+
+		var handler;
+
+		function starttime() {
+			if (handler == null) {		// setInterval 중복 동작 방지
+				handler = setInterval(function () {
+					// background color random
+					var color = [];
+					color[0] = Math.random() * 256;
+					color[1] = Math.random() * 256;
+					color[2] = Math.random() * 256;
+					document.getElementById("clock").style.backgroundColor = "rgb(" + color[0] + "," + color[1] + "," + color[2] + ")";
+
+					showtime();		// 시계 불러오기
+
+				}, 1000);
+			}
 		}
 		function showtime() {
 			// 현재 시스템의 날짜정보 가져오기
@@ -86,9 +93,14 @@
 		}
 
 		function killtime() {
-			// TODO: setInterval() 중단 필요 (clearInterval())
+			clearInterval(handler);
+			handler = null;
+		}
 
+		function endtime() {
+			if (handler != null) killtime();
 			document.getElementById("clock").value = "";
+			document.getElementById("clock").style.backgroundColor = '';
 
 		}
 
