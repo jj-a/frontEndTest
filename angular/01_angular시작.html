@@ -1,25 +1,51 @@
 <!DOCTYPE html>
-<html lang="ko">
+<html lang="ko" ng-app="myApp">
 <head>
-<meta charset="utf-8">
-<title>angular 시작</title>
-<link rel="stylesheet" href="css/kakao.font.css"/>
-<style>
-    body {
-        font-family: 'Kakao', sans-serif;
+	<meta charset="utf-8">
+	<title>angular 시작</title>
+	<script src="js/jquery.js"></script>
+	<script src="js/angular.min.js"></script>
+	<link rel="stylesheet" href="css/kakao.font.css" />
+	<style>
+		body {
+			font-family: 'Kakao', sans-serif;
+		}
 
-    }
-    h1,h2 {
-        font-weight: 200;
-    }
-    input {
-        font-family: 'Kakao', sans-serif;
-        font-size:22px;
-    }
-</style>
+		h1, h2 {
+			font-weight: 200;
+		}
+
+		input {
+			font-family: 'Kakao', sans-serif;
+			font-size: 22px;
+		}
+	</style>
 </head>
-<body>
-    <h1>Angular를 이용해봅시다.^-^</h1>
+<body ng-controller="myCtrl">
+	<h1>Angular를 이용해봅시다.^-^</h1>
+	<div>
+		<input type="text" ng-model="text">
+		<h2>안녕하세요</h2>
+		<h3>{{text}}</h3>
+	</div>
+
+	<script>
+		/*
+		모듈(Module), 라이브러리(*.jar), 패키지(package)
+		함수(function/method/procedure)
+		*/
+
+		// angular.module("앵귤러앱명",[]);
+		var app = angular.module("myApp",[]);
+
+		// Model과 View가 연결되는 공간 지정
+		// app.controller("컨트롤러명",[]);
+		app.controller("myCtrl",function () {
+			alert("test");
+		});
+
+	</script>
 
 </body>
+
 </html>

@@ -1,43 +1,72 @@
 <!DOCTYPE html>
 <html lang="ko">
 <head>
-<meta charset="utf-8">
-<title>선언형 프로그래밍</title>
-<link rel="stylesheet" href="css/angular-switcher.css"/>
-<style>
+	<meta charset="utf-8">
+	<title>선언형 프로그래밍</title>
+	<script src="js/angular.min.js"></script>
+	<link rel="stylesheet" href="css/angular-switcher.css" />
+	<style>
+		img {
+			width: 300px;
+			box-shadow: 0 16px 28px 0 rgba(0, 0, 0, 0.22), 0 25px 55px 0 rgba(0, 0, 0, 0.21);
+		}
 
-    img {
-        width:300px;
-        box-shadow: 0 16px 28px 0 rgba(0, 0, 0, 0.22), 0 25px 55px 0 rgba(0, 0, 0, 0.21);
-    }
+		#toggleImg {
+			transition: .4s ease;
+			transform: perspective(500px) rotateY(0deg) scale(1);
+		}
 
-    #toggleImg {
-        transition: .4s ease;
-        transform:perspective(500px) rotateY(0deg) scale(1);
-    }
-    #toggleImg.mini {
-        transform:perspective(500px) rotateY(720deg) scale(.5);
-    }
-    /* bar height */
-    .styled .switcher-line:before { height: 20px; }
-    /* bar backgrounds */
-    .styled .switcher-line:before { background: #e35144; }
-    .styled .active .switcher-line:before { background: deepskyblue; }
-    .switcher.active .switcher-label.true {color:deepskyblue}
-</style>
+		#toggleImg.mini {
+			transform: perspective(500px) rotateY(720deg) scale(.5);
+		}
+
+		/* bar height */
+		.styled .switcher-line:before {
+			height: 20px;
+		}
+
+		/* bar backgrounds */
+		.styled .switcher-line:before {
+			background: #e35144;
+		}
+
+		.styled .active .switcher-line:before {
+			background: deepskyblue;
+		}
+
+		.switcher.active .switcher-label.true {
+			color: deepskyblue
+		}
+	</style>
 </head>
-<body>
-    <h1>선언형 프로그래밍은?</h1>
-    <div id="box">
-        <p>
-            <input type="checkbox" id="toggle" >
-            <label for="toggle">보이기</label>
-        </p>
-        <img src="poster/poster3.png" width="300" id="toggleImg" />
-        <img src="poster/poster4.png" width="300" id="img1"/>
-        <img src="poster/poster6.png" width="300" id="img2"/>
-    </div>
 
+<body ng-app="exApp">
+	<h1>선언형 프로그래밍은?</h1>
+	<div id="box" ng-controller="myCtrl">
+		<p>
+			<input type="checkbox" id="toggle" ng-model="toggleA">
+			<label for="toggle">{{toggleA?"보이기":"숨기기"}}</label>
+		</p>
+		<img src="poster/poster3.png" width="300" id="toggleImg" ng-class="{mini: toggleA}" />
+		<img src="poster/poster4.png" width="300" id="img1" ng-show="toggleA" />
+		<img src="poster/poster6.png" width="300" id="img2" ng-hide="toggleA" />
+	</div>
+
+	<script>
+
+		var app=angular.module("exApp",[]);
+
+		// Back-end : page, request, session, application
+		// pageContext.setAttribute("변수", 값);
+		// pageContext.getAttribute("변수");
+		// Front-end : $scope 객체 -> 공유공간. 양방향 (Model과 View) 바인딩의 핵심 역할
+		// (angular.module).coltroller["$scope", function($scope값을 받는 매개변수명){ ; }]
+		app.controller("myCtrl", ["$scope",  function ($scope) {
+			alert("test");
+		}]);
+
+
+	</script>
 
 </body>
 </html>

@@ -1,11 +1,41 @@
 <!DOCTYPE html>
-<html lang="ko">
+<html lang="ko" ng-app="scopeApp">
+
 <head>
-<meta charset="utf-8">
-<title>스코프의 이해</title>
+	<meta charset="utf-8">
+	<title>스코프의 이해</title>
+	<script src="js/angular.min.js"></script>
 </head>
+
 <body>
 
+	<div ng-controller="parentCtrl">
+		<h1>이름: {{name}} / 감독: {{director}}</h1>
+		<ul ng-controller="childCtrl">
+			<li>이름: {{name}} / 감독: {{director}}</li>
+			<li>이름: {{name}} / 감독: {{director}}</li>
+		</ul>
+		<h2 ng-controller="anotherCtrl">이름: {{name}} / 감독: {{director}}</h2>
+	</div>
+
+	<script>
+		var app = angular.module("scopeApp", []);
+
+		app.controller("parentCtrl", ["$scope", function ($scope) {
+			$scope.name = "극한직업";
+		}]);
+
+		app.controller("childCtrl", ["$scope", function ($scope) {
+			$scope.name = "증인";
+			$scope.director = "이한";
+		}]);
+
+		app.controller("anotherCtrl", ["$scope", function ($scope) {
+			$scope.director = "봉준호";
+		}]);
+
+	</script>
 
 </body>
+
 </html>
