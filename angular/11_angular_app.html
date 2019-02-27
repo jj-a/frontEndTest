@@ -1,68 +1,89 @@
 <!DOCTYPE html>
-<html lang="ko">
+<html lang="ko" ng-app="boxOfficeApp">
 <head>
-<meta charset="utf-8">
-<title>Movie BoxOffice</title>
-<link rel="stylesheet" href="css/bootstrap.min.css" />
-<link rel="stylesheet" href="css/main.css" />
-<link rel="stylesheet" href="css/kakao.font.css" />
-<link rel="stylesheet" href="css/font-awesome.min.css" />
-<style>
-    .title {
-        white-space:nowrap;
-        overflow: hidden;
-        text-overflow: ellipsis;
-    }
-</style>
+	<meta charset="utf-8">
+	<title>Movie BoxOffice</title>
+	<script src="js/angular.min.js"></script>
+	<script src="js/angular-locale_ko.js"></script>
+	<link rel="stylesheet" href="css/bootstrap.min.css" />
+	<link rel="stylesheet" href="css/main.css" />
+	<link rel="stylesheet" href="css/kakao.font.css" />
+	<link rel="stylesheet" href="css/font-awesome.min.css" />
+	<style>
+		.title {
+			white-space: nowrap;
+			overflow: hidden;
+			text-overflow: ellipsis;
+		}
+	</style>
 </head>
-<body>
-    <div class="header">
-        <div class="container">
-            <h1>영화 목록</h1>
-        </div>
-    </div>
 
-    <div class="main">
-        <div class="container">
-            <h2>박스오피스</h2>
-            <ul>
-                <li class="col-md-4">
-                    <div class="thumbnail">
-                        <div class="rating">
-                            <button class="likes"></button>
-                            <button class="dislikes"></button>
-                        </div><!--//rating-->
-                    </div><!--//thumbnail-->
-                </li>
-            </ul>
-        </div>
-    </div><!-- movieController -->
+<body ng-controller="myCtrl">
+	<div class="header">
+		<div class="container">
+			<h1>영화 목록</h1>
+		</div>
+	</div>
 
-    <div class="footer">
-        <div class="container">
-            <h2>&copy; 2016 jna</h2>
-        </div>
-    </div>
+	<div class="main">
+		<div class="container">
+			<h2>박스오피스</h2>
+			<ul>
+				<li class="col-md-4" ng-repeat="movie in movies">
+					<div class="thumbnail">
+						<img src="poster/{{movie.poster}}">
+						<h3 class="title">{{movie.name}}</h3>
+						<h3 class="title" ng-bind="movie.name"></h3>
+						<h4 ng-bind="movie.release | date:'yyyy년 M월 d일'"></h4>
+						<strong class="price">{{movie.price | currency: "\\": 0}}</strong>
+						<div class="rating">
+							<button class="likes" ng-click="increaseLikes(movie)">{{movie.likes}}</button>
+							<button class="dislikes" ng-click="increaseDislikes(movies, $index)">{{movie.dislikes}}</button>
+						</div>
+						<!--//rating-->
+					</div>
+					<!--//thumbnail-->
+				</li>
+			</ul>
+		</div>
+	</div><!-- movieController -->
 
+	<div class="footer">
+		<div class="container">
+			<h2>&copy; ㅈ</h2>
+		</div>
+	</div>
+
+	<script>
+
+		var app=angular.module("boxOfficeApp", []);
+		app.controller("myCtrl", ["$scope", "$http", function ($scope,$http) {
+			var promise=$http({url:"json/movies2.json"});
+
+			promise.success(function(result){
+				$scope.movies=result;
+			});
+
+			$scope.increaseLikes=function(movie){
+			// 좋아요 클릭 시
+				alert("♥");
+				movie.likes++;
+			};
+
+			$scope.increaseDislikes=function(movies, $index){
+			// 싫어요 클릭 시
+				alert("ㅠㅠ");
+				movies[$index].dislikes++;
+			};
+
+			promise.error(function(){
+				alert("error");
+			})
+		}]);	// controller func() end
+
+
+	</script>
 
 </body>
+
 </html>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

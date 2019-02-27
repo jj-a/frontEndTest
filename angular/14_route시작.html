@@ -1,73 +1,105 @@
 <!DOCTYPE html>
-<html lang="ko">
+<html lang="ko" ng-app="routeApp">
 <head>
-<meta charset="utf-8">
-    <title>라우터 파라미터</title>
-    <link rel="stylesheet" href="css/kakao.font.css"/>
-    <link rel="stylesheet" href="css/font-awesome.min.css" />
-    <style>
-        body {
-            margin:0;
-            font:100 18px 'Kakao',sans-serif;
-        }
-        #wrap {
-            width:1000px;margin:auto;
-            box-shadow: 0 12px 15px 0 rgba(0, 0, 0, 0.24), 0 17px 50px 0 rgba(0, 0, 0, 0.19);
-        }
-
-        #header {
-            width:980px;
-            background:#03A9F4;
-            border-top:1px solid #aaa;
-            padding:10px;
-            color:#fff;
-        }
-
-        #header ul {
-            margin:0;
-            padding:0;
-            list-style: none;
-            overflow: hidden;
-        }
-
-        #header li {
-            float:left;
-            padding:5px 10px;
-        }
-        #header a {
-            color:#fff;
-        }
-        #content {
-            padding: 10px;
-            min-height:500px;
-        }
-        #content a {
-            color:#03A9F4;
-        }
-        #footer {
-            height:100px;
-            line-height:100px;
-            text-align:center;
-            background: #03A9F4;
-            color:#fff;
-        }
-
-    </style>
+	<meta charset="utf-8">
+	<title>라우터 파라미터</title>
+	<script src="js/angular.min.js"></script>
+	<!--Routing하기 위한 오픈 소스-->
+	<script src="js/angular-route.min.js"></script>
+	<link rel="stylesheet" href="css/kakao.font.css" />
+	<link rel="stylesheet" href="css/font-awesome.min.css" />
+	<style>
+		body {
+			margin: 0;
+			font: 100 18px 'Kakao', sans-serif;
+		}
+		#wrap {
+			width: 1000px;
+			margin: auto;
+			box-shadow: 0 12px 15px 0 rgba(0, 0, 0, 0.24), 0 17px 50px 0 rgba(0, 0, 0, 0.19);
+		}
+		#header {
+			width: 980px;
+			background: rgb(165, 235, 214);
+			border-top: 1px solid #aaa;
+			padding: 10px;
+			color: #fff;
+		}
+		#header ul {
+			margin: 0;
+			padding: 0;
+			list-style: none;
+			overflow: hidden;
+		}
+		#header li {
+			float: left;
+			padding: 5px 10px;
+		}
+		#header a {
+			color: #fff;
+		}
+		#content {
+			padding: 10px;
+			min-height: 500px;
+		}
+		#content a {
+			color: rgb(165, 235, 214);
+		}
+		#footer {
+			height: 100px;
+			line-height: 100px;
+			text-align: center;
+			background: rgb(165, 235, 214);
+			color: #fff;
+		}
+	</style>
 </head>
+
 <body>
-    <div id="wrap">
-        <div id="header">
-            <h1><i class="fa fa-youtube-play"></i> 멋진영화사이트</h1>
-            <ul>
-                <li><a href="">영화목록</a>
-                <li><a href="">영화등록</a>
-                <li><a href="">마이페이지</a>
-            </ul>
-        </div>
-        <div id="content">
-        </div>
-        <div id="footer">&copy; 2016 jna.com</div>
-    </div>
+	<div id="wrap">
+		<div id="header">
+			<h1><i class="fa fa-youtube-play"></i> Moving Movie</h1>
+			<ul>
+				<li><a href="#movie">영화목록</a>
+				<li><a href="#add">영화등록</a>
+				<li><a href="#mypage">마이페이지</a>
+			</ul>
+		</div>
+		<div id="content">
+			<!-- ng-view 디렉티브 안에 view 내용들이 변경되어 출력 -->
+			<ng-view></ng-view>
+		</div>
+		<div id="footer">&copy; 2016 jna.com</div>
+	</div>
+
+	<script>
+		/*
+			* Routing
+			SPA(Single Page Application)에서 페이지 로딩을 다시 하지 않고 다른 페이지를 불러올 수 있음
+		*/
+
+		var app = angular.module("routeApp", ["ngRoute"]);
+
+		// app.controller()
+		// 일반적인 경우 view, model, controller 연결
+
+		// app.config()	
+		// ngRoute모듈을 사용할 경우 view, model, controller 연결
+
+		app.config(function ($routeProvider) {
+
+			// $routeProvider.when("url", "옵션객체");
+			$routeProvider.when("/movie", { template: "<h2>영화 목록을 클릭했습니다</h2>" });
+			$routeProvider.when("/add", { templateUrl: "view/insertform.html" });
+			$routeProvider.when("/mypage", { templateUrl: "view/mypage.html" });
+
+			// 그 외의 경우
+			$routeProvider.otherwise({ redirectTo: "/movie" });
+
+		});	// config func() end
+
+	</script>
 
 </body>
+
 </html>

@@ -1,0 +1,15 @@
+<!-- detail.html -->
+
+<h3>상세보기</h3>
+<a href="#movie">◀ 뒤로</a>
+<h2>{{movie.name}}</h2>
+<dl>
+	<dt>포스터</dt>
+	<dd><img src="poster/{{movie.poster}}"></dd>
+	<dt>감독</dt>
+	<dd>{{movie.director}}</dd>
+	<dt>예매가</dt>
+	<dd>{{movie.price | currency:"\\":0}}</dd>
+	<dt>개봉일자</dt>
+	<dd>{{movie.release | date:"yyyy년 M월 d일"}}</dd>
+</dl>

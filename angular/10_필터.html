@@ -1,19 +1,65 @@
 <!DOCTYPE html>
-<html lang="ko">
-<head>
-<meta charset="utf-8">
-    <title>filter</title>
-    <link rel="stylesheet" href="css/font-awesome.min.css">
-</head>
-<body>
-    <h1>스마트폰 목록</h1>
-    <label>검색 : <input type="text" placeholder="이름검색" /></label>
-    <label><input type="radio" name="order" />가격</label>
-    <label><input type="radio" name="order" />가격</label>
-    <label><input type="radio" name="order" />출시일</label>
-    <label><input type="radio" name="order" />출시일</label>
+<html lang="ko" ng-app="filterApp">
 
-    <ul></ul>
+<head>
+	<meta charset="utf-8">
+	<title>filter</title>
+	<script src="js/angular.min.js"></script>
+	<!--한글 지원 js -> 전후 차이가 없는데...? -->
+	<script src="js/angular-locale_ko.js"></script>
+	<script src="js/angular-ko.input.js"></script>
+	<link rel="stylesheet" href="css/font-awesome.min.css">
+</head>
+
+<body ng-controller="myCtrl">
+	<h1>스마트폰 목록</h1>
+	<label>검색 : <input type="text" placeholder="이름검색" ng-model="word" kr-input /></label>
+	<label><input type="radio" name="order" ng-model="key" value="+price" />가격(오름차순)</label>
+	<label><input type="radio" name="order" ng-model="key" value="-price" />가격(내림차순)</label>
+	<label><input type="radio" name="order" ng-model="key" value="+release" />출시일(오름차순)</label>
+	<label><input type="radio" name="order" ng-model="key" value="-release" />출시일(내림차순)</label>
+
+	<ul>
+		<li ng-repeat="phone in phoneList | orderBy: key | filter: {'name':word}">
+			<h2>{{phone.name}}</h2>
+			<p>가격: {{phone.price | currency: "\\": 0}}
+				<br>출시일: {{phone.release | date: "yyyy년 MM월 dd일" }}
+			</p>
+		</li>
+	</ul>
+
+	<script>
+		/*
+		Angular filter
+		- currency
+		- date
+		- filter
+		- orderBy
+
+		필터사용: '|' 기호
+		옵션: ':' 기호
+
+		*/
+
+		var app=angular.module("filterApp", []);
+		app.controller("myCtrl", ["$scope", function ($scope) {
+
+			// $scope 공유장소: pageContext와 동일한 개념
+			// $scope.변수명
+			// phoneList = []  일반 지역변수
+			$scope.phoneList=[
+				{"name":"아이폰7", "price":980000, "release":new Date("2016-10-21")}, 
+				{"name":"갤럭시 노트7", "price":795800, "release":new Date("2016-08-19")}, 
+				{"name":"Y20", "price":745800, "release":new Date("2016-09-26")}, 
+				{"name":"엑스페리아", "price":513600, "release":new Date("2016-07-04")}, 
+			];
+
+
+		}]);
+
+
+
+	</script>
 
 </body>
 </html>
