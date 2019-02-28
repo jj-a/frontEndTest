@@ -1,78 +1,213 @@
 <!DOCTYPE html>
-<html lang="ko">
+<html lang="ko" ng-app="ajaxApp">
+
 <head>
-<meta charset="utf-8">
-    <title>할일 목록(DB연결)</title>
-    <style>
-        body {
-            margin:0;
-        }
-        #wrap {
-            width:1000px;margin:auto;border:1px solid #424242;}
+	<meta charset="utf-8">
+	<title>할일 목록(DB연결)</title>
+	<style>
+		body {
+			margin: 0;
+		}
 
-        #header {
-            width:1000px;
-            background:#00BCD4;
-            border-bottom:1px solid #424242;
-            border-top:1px solid #00B8D4;
-        }
+		#wrap {
+			width: 1000px;
+			margin: auto;
+			border: 1px solid rgb(176, 156, 196);
+		}
 
-        #header ul {
-            margin:0;
-            padding:0;
-            list-style: none;
-            overflow: hidden;
-        }
+		#header {
+			width: 1000px;
+			background: rgb(219, 201, 228);
+			border-bottom: 1px solid rgb(176, 156, 196);
+			border-top: 1px solid rgb(219, 201, 228);
+			color: rgb(103, 89, 117);
+		}
 
-        #header li {
-            float:left;
-            padding:5px 10px;
-        }
-        #content {
-            min-height:500px;
-            padding:20px;
-        }
-        #footer {
-            height:100px;
-            line-height:100px;
-            text-align:center;
-            background:#00BCD4;
-            border-top:1px solid #424242}
+		#header ul {
+			margin: 0;
+			padding: 0;
+			list-style: none;
+			overflow: hidden;
+		}
 
-    </style>
+		#header li {
+			float: left;
+			padding: 5px 10px;
+		}
+
+		#content {
+			min-height: 500px;
+			padding: 20px;
+			color: rgb(103, 89, 117);
+		}
+
+		a {
+			color: rgb(103, 89, 117);
+			text-decoration: none;
+		}
+
+		a:hover {
+			font-weight: 900;
+			font-size: 1.1em;
+		}
+
+		#footer {
+			height: 100px;
+			line-height: 100px;
+			text-align: center;
+			background: rgb(219, 201, 228);
+			border-top: 1px solid rgb(176, 156, 196);
+			color: rgb(103, 89, 117);
+		}
+	</style>
 </head>
+
 <body>
-<div id="wrap">
-    <div id="header">
-        <h1>할일앱</h1>
-        <ul>
-            <li><a href="">할일목록</a>
-            <li><a href="">할일쓰기</a>
-        </ul>
-    </div>
-    <div id="content"></div>
-    <div id="footer">&copy; 2016 jna.com</div>
-</div>
+	<div id="wrap">
+		<div id="header">
+			<h1>할일앱</h1>
+			<ul>
+				<li><a href="#todo">할일목록</a>
+				<li><a href="#write">할일쓰기</a>
+			</ul>
+		</div>
+		<div id="content">
+			<ng-view></ng-view>
+		</div>
+		<div id="footer">&copy; 2016 jna.com</div>
+	</div>
 
 
-<script src="js/angular.min.js"></script>
-<script src="js/angular-route.min.js"></script>
-<script>
+	<script src="js/angular.min.js"></script>
+	<script src="js/angular-route.min.js"></script>
+	<script>
+		/*
+		RESTful Web Service 방식
+		(Representational Safe Transfer)
+		하나의 URI는 하나의 고유한 리소스를 대표할 수 있도록 URI를 설계해야 한다는 개념
 
-</script>
+		GET : 얻어오기 (SELECT)
+		POST : 입력 (INSERT)
+		PUT : 수정 (UPDATE)
+		DELETE : 삭제 (DELETE)
+		*/
+
+		var app = angular.module("ajaxApp", ["ngRoute"]);
+
+		app.config(function ($routeProvider) {
+
+			$routeProvider.when("/todo", { templateUrl: "view/todo.html", controller: "todoCtrl" });  // 전체목록
+			$routeProvider.when("/write", { templateUrl: "view/write.html", controller: "writeCtrl" });  // 할일등록
+			$routeProvider.otherwise({ redirectTo: "/todo" });
+
+		});	// module.config func() end
+
+		app.controller("todoCtrl", ["$scope", "$http", function ($scope, $http) {
+
+			$scope.loader = false;
+
+			getTodos();
+
+			// 조회 (GET)
+			function getTodos() {
+				$scope.loader = true;	// 로딩 이미지 보여주기
+
+				// MongoDB(mlab.com)에서 document 가져오기
+				var promise = $http({
+					url: 'https://api.mlab.com/api/1/databases/soldesk/collections/customers',
+					method: 'GET',	// 조회(select)
+					params: { apiKey: 'PisQT3kLpeMsxT9hvAIa-4P-i17imOgL' }
+				});
+
+				promise.success(function (data) {
+					//alert("success");
+					$scope.todos = data;
+					$scope.loader = false;	// 로딩 이미지 숨기기
+				});
+
+				promise.error(function () {
+					alert("error");
+				});
+
+			} // getTodos() end
+
+
+			// 삭제 (DELETE)
+			$scope.deleteTodo = function (todo) {
+
+				// MongoDB(mlab.com)에서 document 가져오기
+				var promise = $http({
+					url: 'https://api.mlab.com/api/1/databases/soldesk/collections/customers/' + todo._id.$oid,
+					method: 'DELETE',	// 삭제(delete)
+					params: { apiKey: 'PisQT3kLpeMsxT9hvAIa-4P-i17imOgL' }
+				});
+
+				promise.success(function () {
+					alert("삭제되었습니다.");
+					getTodos();
+				});
+
+				promise.error(function () {
+					alert("error");
+				});
+
+			} // deleteTodo() end
+
+
+			// 수정 (PUT)
+			$scope.updateTodo = function (todo) {
+
+				// MongoDB(mlab.com)에서 document 가져오기
+				var promise = $http({
+					url: 'https://api.mlab.com/api/1/databases/soldesk/collections/customers/' + todo._id.$oid,
+					method: 'PUT',	// 수정(update)
+					params: { apiKey: 'PisQT3kLpeMsxT9hvAIa-4P-i17imOgL' },
+					data: todo
+				});
+
+				promise.success(function () {
+					//alert("수정되었습니다.");
+					getTodos();
+				});
+
+				promise.error(function () {
+					alert("error");
+				});
+
+			} // updateTodo() end
+
+
+		}]) // todoCtrl func() end
+
+
+		app.controller("writeCtrl", ["$scope", "$http", "$location", function ($scope, $http, $location) {
+
+			$scope.writeTodo = function (title) {
+				var todo = { "title": title, "end": false };
+
+				// MongoDB(mlab.com)에서 document 가져오기
+				var promise = $http({
+					url: 'https://api.mlab.com/api/1/databases/soldesk/collections/customers',
+					method: 'POST',	// 추가(insert)
+					params: { apiKey: 'PisQT3kLpeMsxT9hvAIa-4P-i17imOgL' },
+					data: todo
+				});
+
+				promise.success(function () {
+					
+					$location.path("/todo");
+					//$scope.todos = data;
+				});
+
+				promise.error(function () {
+					alert("error");
+				});
+
+			} // writeTodo func() end
+
+		}]) // writeCtrl func() end
+
+	</script>
 </body>
+
 </html>
-
-
-
-
-
-
-
-
-
-
-
-
-
-

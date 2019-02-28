@@ -1,0 +1,13 @@
+<!-- list.html -->
+
+<h2>TO-DO LIST</h2>
+
+<img src="img/loader.gif" ng-show="loader">
+
+<ul ng-hide="loader">
+	<li ng-repeat="todo in todos" style="list-style: none;">
+		<input type="checkbox" name="check" id="check" ng-change="updateTodo(todo)" ng-model="todo.end">
+		<label for="check">{{todo.title}}</label>
+		<button ng-click="deleteTodo(todo)">삭제</button>
+	</li>
+</ul>
